@@ -1,6 +1,6 @@
 from typing import Dict, Optional
 
-from zoo import Zoo
+from zoo import Zoo, ZooOutline
 from zoo_config_builder import ZOOsConfigBuilder, ZooConfiguration
 
 TCityName = str
@@ -11,7 +11,7 @@ class City:
         self.name: str = name
         self.zoo: Optional[Zoo] = self.create_zoo("Mrs Zoo Keeper")
 
-    def create_zoo(self, owner: str) -> Optional[Zoo]:
+    def create_zoo(self, owner_name: str) -> Optional[Zoo]:
         zoo_configs: Dict[
             TCityName, ZooConfiguration
         ] = ZOOsConfigBuilder().get_config()
@@ -20,4 +20,5 @@ class City:
         if not config or not config.is_open_to_public:
             return None
 
-        return Zoo(config.get_config(owner, 130))
+        zoo_outline: ZooOutline = config.get_config(owner_name, zoo_size=130)
+        return Zoo(zoo_outline)

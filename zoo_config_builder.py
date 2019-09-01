@@ -1,7 +1,8 @@
 from dataclasses import dataclass
-from typing import Callable, Dict
+from typing import Callable, Dict, List
 
 from models import Animal
+from zoo import WeekDay, ZooOutline
 
 TZooOwnerName = str
 TZooSize = int
@@ -10,7 +11,7 @@ TCityName = str
 @dataclass
 class ZooConfiguration:
     is_open_to_public: bool
-    get_config: Callable[[TZooOwnerName, TZooSize], Dict]
+    get_config: Callable[[TZooOwnerName, TZooSize], ZooOutline]
 
 
 class ZOOsConfigBuilder:
@@ -27,28 +28,28 @@ class ZOOsConfigBuilder:
         }
 
     @classmethod
-    def _build_paris_config(cls, animal_types):
-        def _get_config(owner, zoo_size):
+    def _build_paris_config(cls, animal_types: List[str]):
+        def _get_config(owner: str, zoo_size: int) -> ZooOutline:
             animals = cls._create_animals(animal_types)
-            return {
-                "owner": owner,
-                "zoo_size": zoo_size,
-                "animals": animals,
-                "most_popular_animal": "giraffe",
-            }
+            return ZooOutline(
+                owner_name=owner,
+                size=zoo_size,
+                animals=animals,
+                most_popular_animal="giraffe",
+            )
 
         return _get_config
 
     @classmethod
     def _build_vienna_config(cls, animal_types):
-        def _get_config(owner, zoo_size):
+        def _get_config(owner: str, zoo_size: int) -> ZooOutline:
             animals = cls._create_animals(animal_types + ["pelican"])
-            return {
-                "owner": owner,
-                "zoo_size": zoo_size,
-                "animals": animals,
-                "free_entrance_day": "friday",
-            }
+            return ZooOutline(
+                owner_name=owner,
+                size=zoo_size,
+                animals=animals,
+                free_entrance_day=WeekDay.FRI,
+            )
 
         return _get_config
 
