@@ -1,17 +1,29 @@
+from dataclasses import dataclass
+from typing import Callable, Dict
+
 from models import Animal
+
+TZooOwnerName = str
+TZooSize = int
+TCityName = str
+
+@dataclass
+class ZooConfiguration:
+    is_open_to_public: bool
+    get_config: Callable[[TZooOwnerName, TZooSize], Dict]
 
 
 class ZOOsConfigBuilder:
-    def get_config(self):
+    def get_config(self) -> Dict[TCityName, ZooConfiguration]:
         return {
-            "paris": {
-                "is_open_to_public": True,
-                "get_config": self._build_paris_config(["girrafe", "lion", "ape"]),
-            },
-            "vienna": {
-                "is_open_to_public": True,
-                "get_config": self._build_vienna_config(["elephant", "tucan"]),
-            },
+            "paris": ZooConfiguration(
+                is_open_to_public=True,
+                get_config=self._build_paris_config(["girrafe", "lion", "ape"]),
+            ),
+            "vienna": ZooConfiguration(
+                is_open_to_public=True,
+                get_config=self._build_vienna_config(["elephant", "tucan"]),
+            ),
         }
 
     @classmethod

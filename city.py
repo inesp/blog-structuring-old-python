@@ -1,17 +1,23 @@
+from typing import Dict, Optional
+
 from zoo import Zoo
-from zoo_config_builder import ZOOsConfigBuilder
+from zoo_config_builder import ZOOsConfigBuilder, ZooConfiguration
+
+TCityName = str
 
 
 class City:
-    def __init__(self, name):
-        self.name = name
-        self.zoo = self.create_zoo("Mrs Zoo Keeper")
+    def __init__(self, name: str):
+        self.name: str = name
+        self.zoo: Optional[Zoo] = self.create_zoo("Mrs Zoo Keeper")
 
-    def create_zoo(self, owner):
-        zoo_configs = ZOOsConfigBuilder().get_config()
+    def create_zoo(self, owner: str) -> Optional[Zoo]:
+        zoo_configs: Dict[
+            TCityName, ZooConfiguration
+        ] = ZOOsConfigBuilder().get_config()
 
-        config = zoo_configs.get(self.name)
-        if not config or not config.get("is_open_to_public"):
+        config: ZooConfiguration = zoo_configs.get(self.name)
+        if not config or not config.is_open_to_public:
             return None
 
-        return Zoo(config["get_config"](owner, 130))
+        return Zoo(config.get_config(owner, 130))
