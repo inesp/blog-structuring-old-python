@@ -11,7 +11,7 @@ TCityName = str
 @dataclass
 class ZooConfiguration:
     is_open_to_public: bool
-    get_config: Callable[[TZooOwnerName, TZooSize], ZooOutline]
+    get_outline: Callable[[TZooOwnerName, TZooSize], ZooOutline]
 
 
 class ZOOsConfigBuilder:
@@ -19,17 +19,17 @@ class ZOOsConfigBuilder:
         return {
             "paris": ZooConfiguration(
                 is_open_to_public=True,
-                get_config=self._build_paris_config(["girrafe", "lion", "ape"]),
+                get_outline=self._build_paris_config(["girrafe", "lion", "ape"]),
             ),
             "vienna": ZooConfiguration(
                 is_open_to_public=True,
-                get_config=self._build_vienna_config(["elephant", "tucan"]),
+                get_outline=self._build_vienna_config(["elephant", "tucan"]),
             ),
         }
 
     @classmethod
     def _build_paris_config(cls, animal_types: List[str]):
-        def _get_config(owner: str, zoo_size: int) -> ZooOutline:
+        def _get_outline(owner: str, zoo_size: int) -> ZooOutline:
             animals = cls._create_animals(animal_types)
             return ZooOutline(
                 owner_name=owner,
@@ -38,11 +38,11 @@ class ZOOsConfigBuilder:
                 most_popular_animal="giraffe",
             )
 
-        return _get_config
+        return _get_outline
 
     @classmethod
     def _build_vienna_config(cls, animal_types):
-        def _get_config(owner: str, zoo_size: int) -> ZooOutline:
+        def _get_outline(owner: str, zoo_size: int) -> ZooOutline:
             animals = cls._create_animals(animal_types + ["pelican"])
             return ZooOutline(
                 owner_name=owner,
@@ -51,7 +51,7 @@ class ZOOsConfigBuilder:
                 free_entrance_day=WeekDay.FRI,
             )
 
-        return _get_config
+        return _get_outline
 
     @staticmethod
     def _create_animals(animal_names):

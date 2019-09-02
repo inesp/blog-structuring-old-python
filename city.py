@@ -20,5 +20,5 @@ class City:
         if not config or not config.is_open_to_public:
             return None
 
-        zoo_outline: ZooOutline = config.get_config(owner_name, zoo_size=130)
+        zoo_outline: ZooOutline = config.get_outline(owner_name, zoo_size=130)
         return Zoo(zoo_outline)
