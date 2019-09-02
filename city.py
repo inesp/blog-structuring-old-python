@@ -14,7 +14,7 @@ class City:
     def create_zoo(self, owner_name: str) -> Optional[Zoo]:
         zoo_configs: Dict[
             TCityName, ZooConfiguration
-        ] = ZOOsConfigBuilder().get_config()
+        ] = ZOOsConfigBuilder().get_configs()
 
         config: ZooConfiguration = zoo_configs.get(self.name)
         if not config or not config.is_open_to_public:

@@ -15,7 +15,7 @@ class ZooConfiguration:
 
 
 class ZOOsConfigBuilder:
-    def get_config(self) -> Dict[TCityName, ZooConfiguration]:
+    def get_configs(self) -> Dict[TCityName, ZooConfiguration]:
         return {
             "paris": ZooConfiguration(
                 is_open_to_public=True,
